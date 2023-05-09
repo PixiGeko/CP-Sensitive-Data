@@ -13,15 +13,15 @@ export class LoremIpsum extends PackFeature {
 			resultType: ValueType.String,
 			parameters: [
 				makeParameter({
-					name: 'value',
-					description: 'The value to replace.',
+					name: 'text',
+					description: 'The text to replace.',
 					type: ParameterType.String,
 					optional: false,
 				}),
 			],
 
-			execute: async ([value]) => {
-				return value.split(' ').map(() => LoremIpsum.LOREM.generateWords(1)).join(' ');
+			execute: async ([text]) => {
+				return text.split(' ').map(() => LoremIpsum.LOREM.generateWords(1)).join(' ');
 			},
 		});
 
