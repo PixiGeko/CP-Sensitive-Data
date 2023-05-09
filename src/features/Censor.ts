@@ -1,15 +1,23 @@
 import {PackFeature} from "./PackFeature";
 import {makeParameter, PackDefinitionBuilder, ParameterType, ValueType} from "@codahq/packs-sdk";
 import {FormulaName} from "../FormulaName";
-import {WARNING} from "../CommonTexts";
+import {TEXTS} from "../../pack";
 
 export class Censor extends PackFeature {
-    static DEFAULT_CHAR: string = "█";
+    static DEFAULT_REPLACEMENT: string = "█";
+    static COMMON_REPLACEMENT = [
+        Censor.DEFAULT_REPLACEMENT,
+        "•",
+        "❤",
+        "♦",
+        "✪",
+        "*"
+    ].sort();
 
     register(pack: PackDefinitionBuilder) {
         pack.addFormula({
             name: FormulaName.CENSOR,
-            description: `Censor all matches in the value. \n\n${WARNING}`,
+            description: `Censor a value. \n\n${TEXTS.censor.warning}`,
             resultType: ValueType.String,
             parameters: [
                 makeParameter({
@@ -20,8 +28,9 @@ export class Censor extends PackFeature {
                 }),
                 makeParameter({
                     name: "replacement",
-                    description: `The value used to replace each character of censored parts. Default is ${Censor.DEFAULT_CHAR}.`,
+                    description: `The value used to replace each character of censored parts. Default is ${Censor.DEFAULT_REPLACEMENT}.`,
                     type: ParameterType.String,
+                    autocomplete: Censor.COMMON_REPLACEMENT,
                     optional: true,
                 }),
                 makeParameter({
@@ -32,19 +41,19 @@ export class Censor extends PackFeature {
                 }),
                 makeParameter({
                     name: "pattern",
-                    description: "The RegEx pattern used to filter the censored parts.",
+                    description: "The RegEx pattern used to filter the censored parts. If not provided, the whole value is censored.",
                     type: ParameterType.String,
                     optional: true,
                 }),
                 makeParameter({
                     name: "keepSpaces",
-                    description: `Keep the spaces or replace them with the replacement.`,
+                    description: `Keep the spaces or replace them with the replacement. Default to true.`,
                     type: ParameterType.Boolean,
                     optional: true,
                 }),
             ],
 
-            execute: async ([value, replacement = Censor.DEFAULT_CHAR, replacementCount = -1, pattern, keepSpaces = true]) => {
+            execute: async ([value, replacement = Censor.DEFAULT_REPLACEMENT, replacementCount = -1, pattern, keepSpaces = true]) => {
                 if (!pattern) return this.censor(value, replacement, replacementCount, keepSpaces);
 
                 const regexp = new RegExp(pattern, 'g');
@@ -61,7 +70,7 @@ export class Censor extends PackFeature {
 
         pack.addColumnFormat({
             name: "Censor",
-            instructions: `Censor the values of the column. ${WARNING}`,
+            instructions: `Censor the values in the column. ${TEXTS.censor.warning}`,
             formulaName: FormulaName.CENSOR
         });
     }

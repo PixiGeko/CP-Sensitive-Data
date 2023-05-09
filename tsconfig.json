@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "lib": ["es2020"],
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }
