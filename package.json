@@ -1,7 +1,7 @@
 {
-  "name": "encrypt",
+  "name": "sensitive-data",
   "version": "1.0.0",
-  "description": "Encrypt Pack",
+  "description": "Sensitive Data Pack",
   "main": "pack.ts",
   "scripts": {
     "upload": "npx coda upload pack.ts"
