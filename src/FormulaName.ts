@@ -1,3 +1,4 @@
 export enum FormulaName {
-    CENSOR = 'Censor'
+    CENSOR = 'Censor',
+    LOREM_IPSUM = "LoremIpsum"
 }

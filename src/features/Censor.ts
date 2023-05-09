@@ -17,18 +17,18 @@ export class Censor extends PackFeature {
     register(pack: PackDefinitionBuilder) {
         pack.addFormula({
             name: FormulaName.CENSOR,
-            description: `Censor a value. \n\n${TEXTS.censor.warning}`,
+            description: `Censors a text. \n\n${TEXTS.censor.warning}`,
             resultType: ValueType.String,
             parameters: [
                 makeParameter({
-                    name: "value",
-                    description: "The value to censor.",
+                    name: "text",
+                    description: "The text to censor.",
                     type: ParameterType.String,
                     optional: false,
                 }),
                 makeParameter({
                     name: "replacement",
-                    description: `The value used to replace each character of censored parts. Default is ${Censor.DEFAULT_REPLACEMENT}.`,
+                    description: `The text used to replace each character of censored parts. Default is ${Censor.DEFAULT_REPLACEMENT}.`,
                     type: ParameterType.String,
                     autocomplete: Censor.COMMON_REPLACEMENT,
                     optional: true,
@@ -53,24 +53,24 @@ export class Censor extends PackFeature {
                 }),
             ],
 
-            execute: async ([value, replacement = Censor.DEFAULT_REPLACEMENT, replacementCount = -1, pattern, keepSpaces = true]) => {
-                if (!pattern) return this.censor(value, replacement, replacementCount, keepSpaces);
+            execute: async ([text, replacement = Censor.DEFAULT_REPLACEMENT, replacementCount = -1, pattern, keepSpaces = true]) => {
+                if (!pattern) return this.censor(text, replacement, replacementCount, keepSpaces);
 
                 const regexp = new RegExp(pattern, 'g');
 
                 let match;
-                while ((match = regexp.exec(value)) !== null) {
+                while ((match = regexp.exec(text)) !== null) {
                     const censoredMatch = this.censor(match[0], replacement, replacementCount, keepSpaces);
-                    value = value.substring(0, match.index) + censoredMatch + value.substring(match.index + match[0].length);
+                    text = text.substring(0, match.index) + censoredMatch + text.substring(match.index + match[0].length);
                 }
 
-                return value;
+                return text;
             },
         });
 
         pack.addColumnFormat({
-            name: "Censor",
-            instructions: `Censor the values in the column. ${TEXTS.censor.warning}`,
+            name: "Censor text",
+            instructions: `Censors the values in the column. ${TEXTS.censor.warning}`,
             formulaName: FormulaName.CENSOR
         });
     }
