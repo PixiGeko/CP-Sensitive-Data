@@ -1,0 +1,1 @@
+export const WARNING = "Warning: The value is only visually censored, it is not protected in any way.\nIf you give access or share your document with other people, they will be able to find the real value.";
