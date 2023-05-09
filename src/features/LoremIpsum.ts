@@ -1,10 +1,10 @@
 import {PackFeature} from './PackFeature';
 import {makeParameter, PackDefinitionBuilder, ParameterType, ValueType} from '@codahq/packs-sdk';
-import { LoremIpsum as LI } from 'lorem-ipsum';
+import { LoremIpsum as LoremIpsumGenerator } from 'lorem-ipsum';
 import {FormulaName} from '../FormulaName';
 
 export class LoremIpsum extends PackFeature {
-	static LOREM = new LI();
+	static LOREM = new LoremIpsumGenerator();
 
 	register(pack: PackDefinitionBuilder) {
 		pack.addFormula({
